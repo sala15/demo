@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Personal Info</title>
+    <script
+            src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+            crossorigin="anonymous"></script>
+</head>
+
+<body>
+<h1>Personal Info</h1>
+<form method="post" th:action="@{/signOut}" name="form">
+    <div sec:authorize="isAuthenticated()">
+        <table>
+            <tbody>
+                <tr>
+                    <td>email</td>
+                    <td id="email"></td>
+                </tr>
+                <tr>
+                    <td>nickname</td>
+                    <td id="nickname"></td>
+                </tr>
+                <tr>
+                    <td>name</td>
+                    <td id="name"></td>
+                </tr>
+                <tr>
+                    <td>phone</td>
+                    <td id="phone"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <button sec:authorize="isAuthenticated()" type="submit">Sign Out</button>
+</form>
+</body>
+<script type="application/javascript">
+    $(document).ready(function(){
+        $.ajax({
+            url: "/member/personalInfo",
+            type: "GET",
+            error: function (request, status, error) {
+                alert(request.responseJSON.message);
+            }
+        }).done(function (data) {
+            $("#email").html(data.email);
+            $("#nickname").html(data.nickname);
+            $("#name").html(data.name);
+            $("#phone").html(data.phoneNumber);
+        });
+    });
+</script>
+</html>

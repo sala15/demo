@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign In</title>
+</head>
+<body>
+<h1>Sign In</h1>
+<form method="post" th:action="@{/signIn/authorize}" sec>
+    <div>
+        <input type="text" name="username" placeholder="이메일 혹은 전화번호" autocomplete="off" required/>
+    </div>
+    <div>
+        <input type="password" name="password" placeholder="비밀번호" autocomplete="off" required/>
+    </div>
+    <div th:if="${param.error}">
+        <p th:text="${param.errorMessage}"></p>
+        <p th:text="${application.dd}"></p>
+    </div>
+    <div>
+        <button sec:authorize="isAnonymous()" type="submit">Sign In</button>
+        <a sec:authorize="isAnonymous()" th:href="@{/signUp}">Sign Up</a>
+        <a sec:authorize="isAnonymous()" th:href="@{/changePassword}">Change Password</a>
+    </div>
+</form>
+</body>
+</html>

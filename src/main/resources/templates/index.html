@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Index Page</title>
+</head>
+<body>
+<h1>Index Page</h1>
+    <div><a sec:authorize="isAuthenticated()" th:href="@{/member/myPage}">My Page</a></div>
+    <div><a sec:authorize="isAuthenticated()" th:href="@{/signOut}">Sign Out</a></div>
+    <div><a sec:authorize="isAnonymous()" th:href="@{/signIn}">Sign In</a></div>
+    <div><a sec:authorize="isAnonymous()" th:href="@{/signUp}">Sign Up</a></div>
+    <div><a sec:authorize="isAnonymous()" th:href="@{/changePassword}">Change Password</a></div>
+</body>
+</html>

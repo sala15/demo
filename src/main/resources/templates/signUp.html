@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign Up</title>
+    <script
+            src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+            crossorigin="anonymous"></script>
+</head>
+<body>
+<h1>Sign Up</h1>
+<form method="post" id="signUpForm">
+    <div>
+        <input type="email" placeholder="이메일" name="email">
+    </div>
+    <input type="hidden" th:value="${signupSessionId}" name="signupSessionId">
+    <div><input type="password" placeholder="비밀번호" name="password"></div>
+    <div><input type="password" placeholder="비밀번호 확인" name="passwordConfirm"></div>
+    <div><input type="input" placeholder="이름" name="name"></div>
+    <div><input type="input" placeholder="닉네임" name="nickname"></div>
+    <div><input type="input" placeholder="휴대폰 번호" name="phoneNumber">
+        <button type="button" onclick="sendAuthCode()">인증번호</button>
+    </div>
+    <div><input type="input" placeholder="인증번호" name="authCode">
+        <button type="button" onclick="verifyAuthCode()">인증번호 확인</button>
+    </div>
+
+    <button sec:authorize="isAnonymous()" type="button" onclick="signUp()">회원가입</button>
+</form>
+</body>
+<script type="application/javascript">
+    function sendAuthCode() {
+        var formData = $("#signUpForm").serialize();
+
+        $.ajax({
+            url: "/signUp/sendAuthCode",
+            data: formData,
+            type: "POST",
+            error: function (request, status, error) {
+                alert(JSON.stringify(request.responseJSON, null, 2));
+            }
+        }).done(function (data) {
+            alert(JSON.stringify(data, null, 2));
+        });
+    }
+
+    function signUp() {
+        var formData = $("#signUpForm").serialize();
+
+        $.ajax({
+            url: "/signUp/signUp",
+            data: formData,
+            type: "POST",
+            error: function (request, status, error) {
+                alert(JSON.stringify(request.responseJSON,null, 2));
+            }
+        }).done(function (data) {
+            alert(JSON.stringify(data, null, 2));
+            location.href = '/signIn';
+        });
+    }
+
+    function verifyAuthCode() {
+        var formData = $("#signUpForm").serialize();
+
+        $.ajax({
+            url: "/signUp/verifyAuthCode",
+            data: formData,
+            type: "POST",
+            error: function (request, status, error) {
+                alert(JSON.stringify(request.responseJSON, null, 2));
+            }
+        }).done(function (data) {
+            alert(JSON.stringify(data, null, 2));
+        });
+    }
+</script>
+</html>
